@@ -7,50 +7,32 @@ using UnityEngine;
 
 namespace KCoop
 {
-    [KSPAddon(KSPAddon.Startup.SpaceCentre,false)]
-    public class AddScenarioModules : MonoBehaviour
+    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+    public class KerbalCooperation: MonoBehaviour
     {
-        void Start()
-        {
-            var game = HighLogic.CurrentGame;
+        private static GameObject theKerbalCooperation;
+        public static KerbalCooperation Instance {get; private set;}
 
-            ProtoScenarioModule psm = game.scenarios.Find(s => s.moduleName == typeof(KerbalCooperation).Name);
-            if (psm == null)
-            {
-                Logger.log("Adding the scenario module.");
-                psm = game.AddProtoScenarioModule(typeof(KerbalCooperation), GameScenes.SPACECENTER,
-                    GameScenes.FLIGHT, GameScenes.EDITOR);
-            }
-            else
-            {
-                if (!psm.targetScenes.Any(s => s == GameScenes.SPACECENTER))
-                {
-                    psm.targetScenes.Add(GameScenes.SPACECENTER);
-                }
-                if (!psm.targetScenes.Any(s => s == GameScenes.FLIGHT))
-                {
-                    psm.targetScenes.Add(GameScenes.FLIGHT);
-                }
-                if (!psm.targetScenes.Any(s => s == GameScenes.EDITOR))
-                {
-                    psm.targetScenes.Add(GameScenes.EDITOR);
-                }
-            }
-        }
-    }
-
-    public class KerbalCooperation : ScenarioModule
-    {
-        private static KerbalCooperation Instance { get; private set;}
-        public KerbalCooperation()
+        private void Initialize()
         {
-            Logger.log("Scenario constructor.");
             Instance = this;
+            if (GameObject.Find("KerbalCooperation") == null)
+            {
+                theKerbalCooperation = new GameObject("KerbalCooperation", new [] {typeof (KerbalCooperation)});
+                UnityEngine.Object.DontDestroyOnLoad(theKerbalCooperation);
+            }
+        } 
+
+        public void Start()
+        {
+            Logger.log("KerbalCooperation Initializing.");
+            Initialize();
+            Logger.log("KerbalCooperation Initialized.");
         }
 
-        public override void OnAwake()
+        public void Awake()
         {
-            base.OnAwake();
+            Logger.log("KerbalCooperation Awake.");
         }
     }
 }
