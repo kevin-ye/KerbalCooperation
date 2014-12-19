@@ -10,17 +10,14 @@ namespace KCoop
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     public class KerbalCooperation: MonoBehaviour
     {
-        private static GameObject theKerbalCooperation;
+        private static bool flag_Initialized = false;
         public static KerbalCooperation Instance {get; private set;}
 
         private void Initialize()
         {
-            if (GameObject.Find("KerbalCooperation") == null)
-            {
-                Instance = this;
-                theKerbalCooperation = new GameObject("KerbalCooperation", new [] {typeof (KerbalCooperation)});
-                UnityEngine.Object.DontDestroyOnLoad(theKerbalCooperation);
-            }
+            Instance = this;
+            UnityEngine.Object.DontDestroyOnLoad(this);
+            flag_Initialized = true;
         } 
 
         public void Start()
@@ -32,6 +29,10 @@ namespace KCoop
 
         public void Awake()
         {
+            if (!flag_Initialized)
+            {
+                return;
+            }
             Logger.log("KerbalCooperation Awake.");
         }
     }

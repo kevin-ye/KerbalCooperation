@@ -10,7 +10,8 @@ namespace KCoop
     [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     class SpaceCenterManager: MonoBehaviour
     {
-        private ApplicationLauncherButton button;
+        private ApplicationLauncherButton button = null;
+        private KerbalCooperation kcoop_model = null;
 
         private void onGUIApplicationLauncherDestroyed()
         {
@@ -32,7 +33,7 @@ namespace KCoop
                         buttonClick,
                         null, null, null, null,
                         ApplicationLauncher.AppScenes.ALWAYS,
-                        GameDatabase.Instance.GetTexture("KerbalCooperation/Resource/toolbarButton", false)
+                        GameDatabase.Instance.GetTexture("KerbalCooperation/Resource/ToolbarIcon", false)
                         );
                     Logger.log("Button created");
                 }
@@ -56,6 +57,7 @@ namespace KCoop
         public void Start()
         {
             Logger.log("SpaceCenterManager started.");
+            kcoop_model = KerbalCooperation.Instance;
             GameEvents.onGUIApplicationLauncherReady.Add(this.onGUIApplicationLauncherReady);
             GameEvents.onGUIApplicationLauncherDestroyed.Add(this.onGUIApplicationLauncherDestroyed);
         }
