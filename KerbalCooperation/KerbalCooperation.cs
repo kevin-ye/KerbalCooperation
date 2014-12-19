@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace KCoop
 {
-    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+    [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     public class KerbalCooperation: MonoBehaviour
     {
         private static GameObject theKerbalCooperation;
@@ -15,9 +15,9 @@ namespace KCoop
 
         private void Initialize()
         {
-            Instance = this;
             if (GameObject.Find("KerbalCooperation") == null)
             {
+                Instance = this;
                 theKerbalCooperation = new GameObject("KerbalCooperation", new [] {typeof (KerbalCooperation)});
                 UnityEngine.Object.DontDestroyOnLoad(theKerbalCooperation);
             }

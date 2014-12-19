@@ -7,16 +7,10 @@ using UnityEngine;
 
 namespace KCoop
 {
+    [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     class SpaceCenterManager: MonoBehaviour
     {
         private ApplicationLauncherButton button;
-
-        public SpaceCenterManager()
-        {
-            Logger.log("SpaceCenterManager constructor.");
-            GameEvents.onGUIApplicationLauncherReady.Add(this.onGUIApplicationLauncherReady);
-            GameEvents.onGUIApplicationLauncherDestroyed.Add(this.onGUIApplicationLauncherDestroyed);
-        }
 
         private void onGUIApplicationLauncherDestroyed()
         {
@@ -34,11 +28,11 @@ namespace KCoop
                 if (ApplicationLauncher.Ready)
                 {
                     button = ApplicationLauncher.Instance.AddModApplication(
-                        null,
-                        null,
+                        buttonClick,
+                        buttonClick,
                         null, null, null, null,
                         ApplicationLauncher.AppScenes.ALWAYS,
-                        GameDatabase.Instance.GetTexture("KSP_Timer/Resource/toolbarButton", false)
+                        GameDatabase.Instance.GetTexture("KerbalCooperation/Resource/toolbarButton", false)
                         );
                     Logger.log("Button created");
                 }
@@ -57,6 +51,18 @@ namespace KCoop
                 ApplicationLauncher.Instance.RemoveModApplication(button);
             }
             Logger.log("SpaceCenterManager OnDestroy");
+        }
+
+        public void Start()
+        {
+            Logger.log("SpaceCenterManager started.");
+            GameEvents.onGUIApplicationLauncherReady.Add(this.onGUIApplicationLauncherReady);
+            GameEvents.onGUIApplicationLauncherDestroyed.Add(this.onGUIApplicationLauncherDestroyed);
+        }
+
+        public void buttonClick()
+        {
+            Logger.log("SpaceCenterManager Button clicked.");
         }
     }
 }
