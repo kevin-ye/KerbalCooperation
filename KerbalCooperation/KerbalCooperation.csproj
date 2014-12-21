@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KerbalCooperation</RootNamespace>
     <AssemblyName>KerbalCooperation</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,7 +38,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
@@ -46,12 +46,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KCoopSpaceCenterManager.cs" />
+    <Compile Include="KCoopSpaceCenterWindow.cs" />
     <Compile Include="KerbalCooperation.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilty\AudioUtil.cs" />
+    <Compile Include="Utilty\ConfigUtil.cs" />
+    <Compile Include="Utilty\GuiUtil.cs" />
+    <Compile Include="Utilty\Log.cs" />
+    <Compile Include="Utilty\ResourceUtil.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Library\" />
+    <Content Include="Library\Assembly-CSharp.dll" />
+    <Content Include="Library\UnityEngine.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

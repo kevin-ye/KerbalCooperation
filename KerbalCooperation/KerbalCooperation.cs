@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace KCoop
 {
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-    public class KerbalCooperation: MonoBehaviour
+    public class KerbalCooperation : MonoBehaviour
     {
         private static bool flag_Initialized = false;
-        public static KerbalCooperation Instance {get; private set;}
+        public static KerbalCooperation Instance { get; private set; }
 
         private void Initialize()
         {
             Instance = this;
             UnityEngine.Object.DontDestroyOnLoad(this);
             flag_Initialized = true;
-        } 
+        }
 
         public void Start()
         {

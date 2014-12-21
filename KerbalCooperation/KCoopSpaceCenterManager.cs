@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace KCoop
@@ -11,7 +9,8 @@ namespace KCoop
     class SpaceCenterManager: MonoBehaviour
     {
         private ApplicationLauncherButton button = null;
-        private KerbalCooperation kcoop_model = null;
+        private KCoopSpaceCenterWindow gui = null;
+        public KerbalCooperation kcoop_model = null;
 
         private void onGUIApplicationLauncherDestroyed()
         {
@@ -65,6 +64,15 @@ namespace KCoop
         public void buttonClick()
         {
             Logger.log("SpaceCenterManager Button clicked.");
+            if (gui == null)
+            {
+                gui = new GameObject("SpaceCenterManager.gui").AddComponent<KCoopSpaceCenterWindow>();
+                gui.setParent(this);
+            }
+            else
+            {
+                gui.Visible = !gui.Visible;
+            }
         }
     }
 }
