@@ -7,7 +7,7 @@
     <ProjectGuid>{33C48D8A-B8FF-499E-9690-DA420DCF7F13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KerbalCooperation</RootNamespace>
+    <RootNamespace>KCoop</RootNamespace>
     <AssemblyName>KerbalCooperation</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KCoopNotifyInfoString.cs" />
     <Compile Include="KCoopSpaceCenterManager.cs" />
     <Compile Include="KCoopSpaceCenterWindow.cs" />
     <Compile Include="KerbalCooperation.cs" />

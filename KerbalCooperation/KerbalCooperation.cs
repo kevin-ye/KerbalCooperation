@@ -9,6 +9,8 @@ namespace KCoop
     public class KerbalCooperation : MonoBehaviour
     {
         private static bool flag_Initialized = false;
+        private KCoopNotifyInfoString notifyInfo = null;
+
         public static KerbalCooperation Instance { get; private set; }
 
         private void Initialize()
@@ -16,6 +18,16 @@ namespace KCoop
             Instance = this;
             UnityEngine.Object.DontDestroyOnLoad(this);
             flag_Initialized = true;
+            if (notifyInfo == null)
+            {
+                notifyInfo = new KCoopNotifyInfoString(notifyInfoTypeString.SceneChange,
+                    KCoopNotifyInfoString.currentScene(), notifyInfoString.None);
+            }
+        }
+
+        public void NotifyScene()
+        {
+
         }
 
         public void Start()
@@ -32,6 +44,7 @@ namespace KCoop
                 return;
             }
             Logger.log("KerbalCooperation Awake.");
+
         }
     }
 }

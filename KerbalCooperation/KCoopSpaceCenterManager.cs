@@ -59,6 +59,7 @@ namespace KCoop
             kcoop_model = KerbalCooperation.Instance;
             GameEvents.onGUIApplicationLauncherReady.Add(this.onGUIApplicationLauncherReady);
             GameEvents.onGUIApplicationLauncherDestroyed.Add(this.onGUIApplicationLauncherDestroyed);
+
         }
 
         public void buttonClick()
