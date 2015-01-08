@@ -11,12 +11,16 @@ namespace KCoop
         private static bool flag_Initialized = false;
 		private Dictionary<KCoopNotifyInfoString, KCoopNotifyDelegate> DelMappings = new Dictionary<KCoopNotifyInfoString, KCoopNotifyDelegate>();
         private KCoopNotifyInfoString notifyInfo = null;
+		private ConfigNode saveNode = null;
+		private KCoopTimer globalTimer = new KCoopTimer("globalTimer", true);
+		private KCoopTimer KSCTimer;
 
         public static KerbalCooperation Instance { get; private set; }
 
         private void Initialize()
         {
             Instance = this;
+			KSCTimer = new KCoopTimer("KSCtimer", false);
             UnityEngine.Object.DontDestroyOnLoad(this);
             if (notifyInfo == null)
             {
@@ -33,6 +37,15 @@ namespace KCoop
             Initialize();
             Logger.log("KerbalCooperation Initialized.");
         }
+
+		public void OnDestroy()
+		{
+			if (globalTimer != null) 
+			{
+				globalTimer.Pause();
+				globalTimer.Save(saveNode);
+			}
+		}
 
 		/*
         public void Awake()
@@ -72,6 +85,33 @@ namespace KCoop
 					del(notifyInfo);
 				}
 			}
+		}
+
+		#endregion
+
+		#region data controls
+		/// <summary>
+		/// data contol methods
+		/// </summary>
+
+		// timers
+		public void KSCtimerStart()
+		{
+			// start KSC timer
+			KSCTimer.Start();
+		}
+
+		public void KSCtimerpause()
+		{
+			// pause KSC timer
+			KSCTimer.Pause();
+			KSCtimerSave();
+		}
+
+		public void KSCtimerSave()
+		{
+			// save KSC timer
+			KSCTimer.Save(saveNode);
 		}
 
 		#endregion

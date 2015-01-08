@@ -16,6 +16,7 @@ namespace KCoop
     public enum notifyInfoString {
         None = 0,
 
+		Any,
         Instantly,
         EveryScene,
         MainMenu,
@@ -106,8 +107,12 @@ namespace KCoop
 			// match scene if it is SceneChange
 			if ((this.InfoType == notifyInfoTypeString.SceneChange) && (info.InfoType == notifyInfoTypeString.SceneChange)) 
 			{
-				flag &= (this.fromScene == info.fromScene);
-				flag &= (this.toScene == info.toScene);
+				flag &= (this.fromScene == info.fromScene) || 
+					(this.fromScene == notifyInfoString.Any) || 
+					(info.fromScene == notifyInfoString.Any);
+				flag &= (this.toScene == info.toScene) || 
+					(this.toScene == notifyInfoString.Any) || 
+					(info.toScene == notifyInfoString.Any);
 			}
 			return flag;
 		}

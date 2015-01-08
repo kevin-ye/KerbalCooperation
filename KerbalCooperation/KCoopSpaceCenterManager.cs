@@ -57,6 +57,19 @@ namespace KCoop
         {
             Logger.log("SpaceCenterManager started.");
             kcoop_model = KerbalCooperation.Instance;
+			if (kcoop_model == null) 
+			{
+				Logger.error ("Cannot find KerbalCooperation instance!");
+				return;
+			}
+			// reg delegates
+			KCoopNotifyInfoString sceneChangedtoKSC = new KCoopNotifyInfoString(
+				notifyInfoTypeString.SceneChange, notifyInfoString.Any, notifyInfoString.SpaceCentre);
+			KCoopNotifyInfoString sceneChangedoutKSC = new KCoopNotifyInfoString(
+				notifyInfoTypeString.SceneChange, notifyInfoString.SpaceCentre, notifyInfoString.Any);
+			kcoop_model.registerDelegate(sceneChangedtoKSC, sceneChangedin);
+			kcoop_model.registerDelegate(sceneChangedoutKSC, sceneChangedout);
+
             GameEvents.onGUIApplicationLauncherReady.Add(this.onGUIApplicationLauncherReady);
             GameEvents.onGUIApplicationLauncherDestroyed.Add(this.onGUIApplicationLauncherDestroyed);
 
@@ -85,6 +98,18 @@ namespace KCoop
 			}
 
 			kcoop_model.refreshScene();
+		}
+
+		// scene changed into KSC
+		public void sceneChangedin(KCoopNotifyInfoString info)
+		{
+			kcoop_model.KSCtimerStart();
+		}
+
+		// scene changed to Any from KSC
+		public void sceneChangedout(KCoopNotifyInfoString info)
+		{
+			kcoop_model.KSCtimerpause();
 		}
     }
 }

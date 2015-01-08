@@ -57,6 +57,7 @@
     <Compile Include="Utilty\Log.cs" />
     <Compile Include="Utilty\ResourceUtil.cs" />
     <Compile Include="KCoopExtra.cs" />
+    <Compile Include="KCoopTimer.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
