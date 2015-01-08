@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace KCoop
 {
-	public class KCoopTimer
+	public class KCoopTimer: ISaveAble
 	{
 		private DateTime startdate;
 		private DateTime enddate;
@@ -30,7 +30,12 @@ namespace KCoop
 			enddate = System.DateTime.Now;
 		}
 
-		public void Save(ConfigNode saveNode)
+		public void Load(ConfigNode node)
+		{
+		}
+
+
+		public void Save(ConfigNode node)
 		{
 			TimeSpan ctime = enddate - startdate;
 		}
