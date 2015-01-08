@@ -45,12 +45,12 @@ namespace KCoop
 
         private void OnDestroy()
         {
+			Logger.log("SpaceCenterManager OnDestroy");
             GameEvents.onGUIApplicationLauncherReady.Remove(onGUIApplicationLauncherReady);
             if (button != null)
             {
                 ApplicationLauncher.Instance.RemoveModApplication(button);
             }
-            Logger.log("SpaceCenterManager OnDestroy");
         }
 
         public void Start()
@@ -75,5 +75,16 @@ namespace KCoop
                 gui.Visible = !gui.Visible;
             }
         }
+
+		public void Awake()
+		{
+			if (kcoop_model == null) 
+			{
+				kcoop_model = KerbalCooperation.Instance;
+				return;
+			}
+
+			kcoop_model.refreshScene();
+		}
     }
 }

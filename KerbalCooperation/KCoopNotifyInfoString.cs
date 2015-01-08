@@ -8,6 +8,7 @@ namespace KCoop
     public enum notifyInfoTypeString
     {
         None = 0,
+		Any,
         Initialize,
         SceneChange,
     }
@@ -29,15 +30,24 @@ namespace KCoop
 
     public class KCoopNotifyInfoString 
     {
-        public notifyInfoTypeString InfoType { get; private set; }
+		private notifyInfoString _toScene;
+
+        public notifyInfoTypeString InfoType { get; set; }
         public notifyInfoString fromScene { get; set; }
         public notifyInfoString toScene
         {
-            get;
+			get 
+			{
+				return _toScene;
+			}
             set
             {
-                fromScene = toScene;
-                toScene = value;
+				if (_toScene != notifyInfoString.None) 
+				{
+					fromScene = toScene;
+				}
+                _toScene = value;
+
             }
         }
 
@@ -87,5 +97,19 @@ namespace KCoop
                 return notifyInfoString.None;
             }
         }
+
+		public bool match(KCoopNotifyInfoString info)
+		{
+			bool flag = false;
+			// match InfoType
+			flag |= ((this.InfoType == notifyInfoTypeString.Any) || (this.InfoType == info.InfoType));
+			// match scene if it is SceneChange
+			if ((this.InfoType == notifyInfoTypeString.SceneChange) && (info.InfoType == notifyInfoTypeString.SceneChange)) 
+			{
+				flag &= (this.fromScene == info.fromScene);
+				flag &= (this.toScene == info.toScene);
+			}
+			return flag;
+		}
     }
 }

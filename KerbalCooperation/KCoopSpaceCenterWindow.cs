@@ -33,7 +33,7 @@ namespace KCoop
             parent = manager;
         }
 
-        public void notify(notifyInfo info)
+		public void notify(KCoopNotifyInfoString info)
         {
 
         }
