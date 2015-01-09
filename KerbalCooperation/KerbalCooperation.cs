@@ -11,7 +11,7 @@ namespace KCoop
 		public static readonly string version = "0.1";
 	}
 
-    [KSPAddon(KSPAddon.Startup.MainMenu, true)]
+	[KSPAddon(KSPAddon.Startup.MainMenu, true)]
 	public class KCoopScenarioLoader: MonoBehaviour
 	{
 		public static KerbalCooperation _instance = null;
@@ -28,14 +28,13 @@ namespace KCoop
 	public class KerbalCooperation : ScenarioModule
     {
         private static bool flag_Initialized = false;
-		private Dictionary<KCoopNotifyInfoString, KCoopNotifyDelegate> DelMappings = new Dictionary<KCoopNotifyInfoString, KCoopNotifyDelegate>();
-        private KCoopNotifyInfoString notifyInfo = null;
 		private readonly string saveNodeName = "KCoop";
 		private bool newSave = true;
 		private List<ISaveAble> SaveAbleList = new List<ISaveAble>();
 		private KCoopTimer KSCTimer;
 
         public static KerbalCooperation Instance { get; private set; }
+		public KCoopSpaceCenterManager SpaceCenterManager { get; private set;}
 
         private void Initialize()
         {
@@ -44,14 +43,33 @@ namespace KCoop
 			KSCTimer = new KCoopTimer("KSCtimer", false);
 			SaveAbleList.Add(KSCTimer);
 
-            UnityEngine.Object.DontDestroyOnLoad(this);
-            if (notifyInfo == null)
-            {
-                notifyInfo = new KCoopNotifyInfoString(notifyInfoTypeString.SceneChange,
-                    KCoopNotifyInfoString.currentScene(), notifyInfoString.None);
-            }
-			DelMappings.Clear();
+            //UnityEngine.Object.DontDestroyOnLoad(this);
 			flag_Initialized = true;
+
+			// add scenario module
+			var game = HighLogic.CurrentGame;
+
+			ProtoScenarioModule psm = game.scenarios.Find(s => s.moduleName == typeof(KerbalCooperation).Name);
+			if (psm == null)
+			{
+				psm = game.AddProtoScenarioModule(typeof(KerbalCooperation), GameScenes.SPACECENTER,
+					GameScenes.FLIGHT, GameScenes.EDITOR);
+			}
+			else
+			{
+				if (!psm.targetScenes.Any(s => s == GameScenes.SPACECENTER))
+				{
+					psm.targetScenes.Add(GameScenes.SPACECENTER);
+				}
+				if (!psm.targetScenes.Any(s => s == GameScenes.FLIGHT))
+				{
+					psm.targetScenes.Add(GameScenes.FLIGHT);
+				}
+				if (!psm.targetScenes.Any(s => s == GameScenes.EDITOR))
+				{
+					psm.targetScenes.Add(GameScenes.EDITOR);
+				}
+			}
         }
 
 		public KerbalCooperation()
@@ -88,47 +106,28 @@ namespace KCoop
 			}
 		}
 
-		/*
-        public void Awake()
+		public override void OnAwake()
         {
+			base.OnAwake ();
             if (!flag_Initialized)
             {
 				// avoid first time Awake for Start
                 return;
             }
-            Logger.log("KerbalCooperation Awake.");
 
-        }
-        */
-
-		#region MVC pattern
-		/// <summary>
-		/// MVC pattern with methods
-		/// </summary>
-		public void refreshScene()
-		{
-			notifyInfo.InfoType = notifyInfoTypeString.SceneChange;
-			notifyInfo.toScene = KCoopNotifyInfoString.currentScene();
-		} 
-
-		public void registerDelegate(KCoopNotifyInfoString info, KCoopNotifyDelegate del)
-		{
-			DelMappings.Add(info, del);
-		}
-
-		public void notifyAll()
-		{
-			foreach (var mapping in DelMappings) 
-			{
-				if (mapping.Key.match(notifyInfo))
-				{
-					KCoopNotifyDelegate del = mapping.Value;
-					del(notifyInfo);
-				}
+			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+				Logger.log ("Adding SpaceCenterManager");
+				SpaceCenterManager = gameObject.AddComponent<KCoopSpaceCenterManager>() as KCoopSpaceCenterManager;
+			} else if (HighLogic.LoadedScene == GameScenes.FLIGHT) {
+			} else if (HighLogic.LoadedScene == GameScenes.EDITOR) {
 			}
+
 		}
 
-		#endregion
+		private void OnDestroy()
+		{
+			Destroy(SpaceCenterManager);
+		}
 
 		#region data controls
 		/// <summary>

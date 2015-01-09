@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace KCoop
 {
-    [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-    class SpaceCenterManager: MonoBehaviour
+	public class KCoopSpaceCenterManager: MonoBehaviour
     {
         private ApplicationLauncherButton button = null;
         private KCoopSpaceCenterWindow gui = null;
@@ -62,13 +61,6 @@ namespace KCoop
 				Logger.error ("Cannot find KerbalCooperation instance!");
 				return;
 			}
-			// reg delegates
-			KCoopNotifyInfoString sceneChangedtoKSC = new KCoopNotifyInfoString(
-				notifyInfoTypeString.SceneChange, notifyInfoString.Any, notifyInfoString.SpaceCentre);
-			KCoopNotifyInfoString sceneChangedoutKSC = new KCoopNotifyInfoString(
-				notifyInfoTypeString.SceneChange, notifyInfoString.SpaceCentre, notifyInfoString.Any);
-			kcoop_model.registerDelegate(sceneChangedtoKSC, sceneChangedin);
-			kcoop_model.registerDelegate(sceneChangedoutKSC, sceneChangedout);
 
             GameEvents.onGUIApplicationLauncherReady.Add(this.onGUIApplicationLauncherReady);
             GameEvents.onGUIApplicationLauncherDestroyed.Add(this.onGUIApplicationLauncherDestroyed);
@@ -77,11 +69,11 @@ namespace KCoop
 
         public void buttonClick()
         {
-            Logger.log("SpaceCenterManager Button clicked.");
+			Logger.log("KCoopSpaceCenterManager Button clicked.");
             if (gui == null)
             {
-                gui = new GameObject("SpaceCenterManager.gui").AddComponent<KCoopSpaceCenterWindow>();
-                gui.setParent(this);
+				gui = gameObject.AddComponent<KCoopSpaceCenterWindow> () as KCoopSpaceCenterWindow;
+				gui.setParent(this);
             }
             else
             {
@@ -96,20 +88,6 @@ namespace KCoop
 				kcoop_model = KerbalCooperation.Instance;
 				return;
 			}
-
-			kcoop_model.refreshScene();
-		}
-
-		// scene changed into KSC
-		public void sceneChangedin(KCoopNotifyInfoString info)
-		{
-			kcoop_model.KSCtimerStart();
-		}
-
-		// scene changed to Any from KSC
-		public void sceneChangedout(KCoopNotifyInfoString info)
-		{
-			kcoop_model.KSCtimerpause();
 		}
     }
 }

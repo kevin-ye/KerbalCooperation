@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace KCoop
 {
-	public delegate void KCoopNotifyDelegate(KCoopNotifyInfoString notifyInfo);
-
 	public interface ISaveAble 
 	{
 		void Load(ConfigNode node);

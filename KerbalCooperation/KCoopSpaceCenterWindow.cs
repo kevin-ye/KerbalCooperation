@@ -8,7 +8,7 @@ namespace KCoop
 {
     class KCoopSpaceCenterWindow: window.DraggableWindow
     {
-        private SpaceCenterManager parent = null;
+		private KCoopSpaceCenterManager parent = null;
         protected override Rect Setup()
         {
             Logger.log("SpaceCenterWindow setup.");
@@ -19,7 +19,7 @@ namespace KCoop
         protected override void DrawUI()
         {
             GUILayout.BeginVertical();
-            GUILayout.Label("test SpaceCenterManager.DrawUI");
+			GUILayout.Label("test KCoopSpaceCenterWindow.DrawUI");
             GUILayout.EndVertical();
         }
 
@@ -28,7 +28,7 @@ namespace KCoop
             Logger.log("SpaceCenterWindow OnCloseClick.");
         }
 
-        public void setParent(SpaceCenterManager manager)
+		public void setParent(KCoopSpaceCenterManager manager)
         {
             parent = manager;
         }

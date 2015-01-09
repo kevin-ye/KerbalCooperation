@@ -6,7 +6,7 @@ using UnityEngine;
 namespace KCoop
 {
     // UnityEngine debug log warpper
-    class Logger
+    public class Logger
     {
         private const string fronter = "KCoop: ";
         public static void log(string info)
