@@ -31,7 +31,7 @@ namespace KCoop
 		private readonly string saveNodeName = "KCoop";
 		private bool newSave = true;
 		private List<ISaveAble> SaveAbleList = new List<ISaveAble>();
-		private KCoopTimer KSCTimer;
+		private List<KCoopTimer> timers = new List<KCoopTimer> (); 
 
         public static KerbalCooperation Instance { get; private set; }
 		public KCoopSpaceCenterManager SpaceCenterManager { get; private set;}
@@ -40,8 +40,9 @@ namespace KCoop
         {
             Instance = this;
 			SaveAbleList.Clear ();
-			KSCTimer = new KCoopTimer("KSCtimer", false);
-			SaveAbleList.Add(KSCTimer);
+			KCoopTimer t = new KCoopTimer ("KSCtimer", false);
+			timers.Add(t);
+			SaveAbleList.Add(t);
 
             //UnityEngine.Object.DontDestroyOnLoad(this);
 			flag_Initialized = true;
@@ -102,7 +103,10 @@ namespace KCoop
 				}
 			} else {
 				ConfigNode saveNode = gameNode.AddNode (saveNodeName);
-				saveNode.AddValue ("");
+				saveNode.AddValue ("newSave", newSave);
+				foreach (ISaveAble i in SaveAbleList) {
+					i.Save (saveNode);
+				}
 			}
 		}
 
@@ -115,7 +119,12 @@ namespace KCoop
                 return;
             }
 
+			foreach (var t in timers) {
+				t.Pause ();
+			}
+
 			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+				timers.Find (t => t.name.Equals ("KSCtimer")).Start ();
 				Logger.log ("Adding SpaceCenterManager");
 				SpaceCenterManager = gameObject.AddComponent<KCoopSpaceCenterManager>() as KCoopSpaceCenterManager;
 			} else if (HighLogic.LoadedScene == GameScenes.FLIGHT) {
@@ -129,22 +138,20 @@ namespace KCoop
 			Destroy(SpaceCenterManager);
 		}
 
-		#region data controls
+		#region Timer data
 		/// <summary>
-		/// data contol methods
+		/// Timer data methods
 		/// </summary>
 
-		// timers
-		public void KSCtimerStart()
+		public TimeSpan getTimerSpan(string name) 
 		{
-			// start KSC timer
-			KSCTimer.Start();
-		}
+			TimeSpan ret = System.TimeSpan.Zero;
+			KCoopTimer t = timers.Find (d => d.name == name);
+			if (t != null) {
+				ret = t.getTime();
+			}
 
-		public void KSCtimerpause()
-		{
-			// pause KSC timer
-			KSCTimer.Pause();
+			return ret;
 		}
 
 		#endregion
