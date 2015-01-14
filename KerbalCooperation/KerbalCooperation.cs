@@ -43,6 +43,12 @@ namespace KCoop
 			KCoopTimer t = new KCoopTimer ("KSCtimer", false);
 			timers.Add(t);
 			SaveAbleList.Add(t);
+			t = new KCoopTimer ("Flighttimer", false);
+			timers.Add(t);
+			SaveAbleList.Add(t);
+			t = new KCoopTimer ("Editortimer", false);
+			timers.Add(t);
+			SaveAbleList.Add(t);
 
             //UnityEngine.Object.DontDestroyOnLoad(this);
 			flag_Initialized = true;
@@ -128,7 +134,13 @@ namespace KCoop
 				Logger.log ("Adding SpaceCenterManager");
 				SpaceCenterManager = gameObject.AddComponent<KCoopSpaceCenterManager>() as KCoopSpaceCenterManager;
 			} else if (HighLogic.LoadedScene == GameScenes.FLIGHT) {
+				timers.Find (t => t.name.Equals ("Flighttimer")).Start ();
+				Logger.log ("Adding FlightManager");
+				SpaceCenterManager = gameObject.AddComponent<KCoopFlightManager>() as KCoopFlightManager;
 			} else if (HighLogic.LoadedScene == GameScenes.EDITOR) {
+				timers.Find (t => t.name.Equals ("Editortimer")).Start ();
+				Logger.log ("Adding EditorManager");
+				SpaceCenterManager = gameObject.AddComponent<KCoopEditorManager>() as KCoopEditorManager;
 			}
 
 		}

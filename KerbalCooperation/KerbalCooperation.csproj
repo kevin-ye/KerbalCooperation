@@ -58,6 +58,8 @@
     <Compile Include="Utilty\ResourceUtil.cs" />
     <Compile Include="KCoopExtra.cs" />
     <Compile Include="KCoopTimer.cs" />
+    <Compile Include="KCoopFlightManager.cs" />
+    <Compile Include="KCoopEditorManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

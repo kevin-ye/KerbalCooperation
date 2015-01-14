@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KSP;
 using UnityEngine;
 
 namespace KCoop
@@ -9,7 +10,7 @@ namespace KCoop
     {
         private ApplicationLauncherButton button = null;
         private KCoopSpaceCenterWindow gui = null;
-        public KerbalCooperation kcoop_model = null;
+		private KerbalCooperation kcoop_model = null;
 
         private void onGUIApplicationLauncherDestroyed()
         {
@@ -67,6 +68,16 @@ namespace KCoop
 
         }
 
+		public void Awake()
+		{
+			if (kcoop_model == null) 
+			{
+				kcoop_model = KerbalCooperation.Instance;
+				Logger.error ("Cannot find KerbalCooperation instance!");
+				return;
+			}
+		}
+
         public void buttonClick()
         {
 			Logger.log("KCoopSpaceCenterManager Button clicked.");
@@ -80,14 +91,5 @@ namespace KCoop
                 gui.Visible = !gui.Visible;
             }
         }
-
-		public void Awake()
-		{
-			if (kcoop_model == null) 
-			{
-				kcoop_model = KerbalCooperation.Instance;
-				return;
-			}
-		}
     }
 }
