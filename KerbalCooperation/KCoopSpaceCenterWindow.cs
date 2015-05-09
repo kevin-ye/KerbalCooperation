@@ -32,10 +32,5 @@ namespace KCoop
         {
             parent = manager;
         }
-
-		public void notify(KCoopNotifyInfoString info)
-        {
-
-        }
     }
 }

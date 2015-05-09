@@ -35,6 +35,8 @@ namespace KCoop
 
         public static KerbalCooperation Instance { get; private set; }
 		public KCoopSpaceCenterManager SpaceCenterManager { get; private set;}
+		public KCoopFlightManager FlightManager { get; private set;}
+		public KCoopEditorManager EditorManager { get; private set;}
 
         private void Initialize()
         {
@@ -97,6 +99,7 @@ namespace KCoop
 					i.Load (saveNode);
 				}
 			}
+			Logger.log ("Save loaded.");
 		}
 
 		public override void OnSave(ConfigNode gameNode)
@@ -114,6 +117,7 @@ namespace KCoop
 					i.Save (saveNode);
 				}
 			}
+			Logger.log ("game saved.");
 		}
 
 		public override void OnAwake()
@@ -125,10 +129,12 @@ namespace KCoop
                 return;
             }
 
+			// pause all timers
 			foreach (var t in timers) {
 				t.Pause ();
 			}
 
+			// start one timer
 			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
 				timers.Find (t => t.name.Equals ("KSCtimer")).Start ();
 				Logger.log ("Adding SpaceCenterManager");
@@ -136,11 +142,11 @@ namespace KCoop
 			} else if (HighLogic.LoadedScene == GameScenes.FLIGHT) {
 				timers.Find (t => t.name.Equals ("Flighttimer")).Start ();
 				Logger.log ("Adding FlightManager");
-				SpaceCenterManager = gameObject.AddComponent<KCoopFlightManager>() as KCoopFlightManager;
+				FlightManager = gameObject.AddComponent<KCoopFlightManager>() as KCoopFlightManager;
 			} else if (HighLogic.LoadedScene == GameScenes.EDITOR) {
 				timers.Find (t => t.name.Equals ("Editortimer")).Start ();
 				Logger.log ("Adding EditorManager");
-				SpaceCenterManager = gameObject.AddComponent<KCoopEditorManager>() as KCoopEditorManager;
+				EditorManager = gameObject.AddComponent<KCoopEditorManager>() as KCoopEditorManager;
 			}
 
 		}

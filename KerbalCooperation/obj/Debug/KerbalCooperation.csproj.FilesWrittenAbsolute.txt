@@ -1,0 +1,6 @@
+/Users/Ye-Macbook/Documents/Development/kevin-ye/KerbalCooperation.git/KerbalCooperation/bin/Debug/Assembly-CSharp.dll
+/Users/Ye-Macbook/Documents/Development/kevin-ye/KerbalCooperation.git/KerbalCooperation/bin/Debug/UnityEngine.dll
+/Users/Ye-Macbook/Documents/Development/kevin-ye/KerbalCooperation.git/KerbalCooperation/bin/Debug/KerbalCooperation.dll.mdb
+/Users/Ye-Macbook/Documents/Development/kevin-ye/KerbalCooperation.git/KerbalCooperation/bin/Debug/KerbalCooperation.dll
+/Users/Ye-Macbook/Documents/Development/kevin-ye/KerbalCooperation.git/KerbalCooperation/obj/Debug/KerbalCooperation.dll
+/Users/Ye-Macbook/Documents/Development/kevin-ye/KerbalCooperation.git/KerbalCooperation/obj/Debug/KerbalCooperation.dll.mdb

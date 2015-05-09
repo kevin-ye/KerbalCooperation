@@ -60,6 +60,7 @@
     <Compile Include="KCoopTimer.cs" />
     <Compile Include="KCoopFlightManager.cs" />
     <Compile Include="KCoopEditorManager.cs" />
+    <Compile Include="KCoopPackageSender.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
